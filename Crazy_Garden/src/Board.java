@@ -1,22 +1,21 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Board {
     private static final int rows = 15;
     private static final int columns = 20;
-    private final Entity[][] boardArray = new Entity[rows][columns];
-    private ArrayList<Entity> emptyEntities = new ArrayList<>();
-    public ArrayList<Entity> animals = new ArrayList<>();
+    private final Cell[][] boardArray = new Cell[rows][columns];
+    private ArrayList<Cell> emptyEntities = new ArrayList<>();
+    public ArrayList<Cell> animals = new ArrayList<>();
 
     // populates board with borders and empty cells
     {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (i == 0 || i == rows-1 || j == 0 || j == columns-1) {
-                    this.boardArray[i][j] = new Entity("Obstacle");
+                    this.boardArray[i][j] = new Cell("Obstacle");
                 }
                 else {
-                    boardArray[i][j] = new Entity();                                    // Making empty cells
+                    boardArray[i][j] = new Cell();                                    // Making empty cells
                     emptyEntities.add(this.boardArray[i][j]);
                 }
                 this.boardArray[i][j].position = new int[]{i, j};                       // Saving position inside object
@@ -52,8 +51,8 @@ public class Board {
     }
 
     public void display() {
-        for (Entity[] i : this.boardArray) {
-            for (Entity j : i) {
+        for (Cell[] i : this.boardArray) {
+            for (Cell j : i) {
                 switch (j.type) {
                     case "Empty" -> System.out.print(" _ ");
                     case "Obstacle" -> System.out.print(" X ");
@@ -88,19 +87,19 @@ public class Board {
                             this.boardArray[moveTo[0]][moveTo[1]].updateToggle = !updateIf;
                             this.emptyEntities.remove(this.boardArray[moveTo[0]][moveTo[1]]);
                         } else animals.remove(this.boardArray[i][j]);
-                        this.boardArray[i][j] = new Entity(updateIf);
+                        this.boardArray[i][j] = new Cell(updateIf);
                         this.boardArray[i][j].position = new int[]{i, j};
                         this.emptyEntities.add(this.boardArray[i][j]);
                         animals.remove(this.boardArray[i][j]);
-                            if (animals.size() < 2) return;
+                        if (animals.size() < 2) return;
                     }
                     this.boardArray[i][j].updateToggle = !updateIf;
                 }
             }
         }
         // iterate through cells
-            // if cell is animal
-                // try to move
+        // if cell is animal
+        // try to move
     }
 
     private static int[][] getNeighbours(int[] pos) {

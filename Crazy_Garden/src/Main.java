@@ -7,7 +7,7 @@ public class Main {
         board.populate(40, 10);
         board.display();
 
-	    while(board.animals.size() > 1) {
+        while(board.animals.size() > 1) {
             board.update();
             board.display();
             steps++;

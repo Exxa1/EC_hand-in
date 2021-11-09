@@ -1,24 +1,24 @@
-public class Entity {
+public class Cell {
     public String type;
     public int[] position;
     public boolean updateToggle = false;
 
-    public Entity() {
+    public Cell() {
         this.type = "Empty";
     }
-    public Entity(boolean updateState) {
+    public Cell(boolean updateState) {
         this.type = "Empty";
         this.updateToggle = updateState;
     }
 
-    public Entity(String type) {
+    public Cell(String type) {
         if (!type.equals("Empty") && !type.equals("Obstacle") && !type.equals("Animal"))
             System.out.println("type argument is not correct");
         else
             this.type = type;
     }
 
-    public Entity(Entity that) {
+    public Cell(Cell that) {
         this.type = that.type;
         this.position = that.position;
         this.updateToggle = that.updateToggle;
