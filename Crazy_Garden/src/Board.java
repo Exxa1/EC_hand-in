@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+// comment
 
 public class Board {
     private final int ROWS;                                 // row variable
