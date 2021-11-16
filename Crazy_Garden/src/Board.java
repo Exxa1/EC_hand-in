@@ -3,20 +3,35 @@ import java.util.ArrayList;
 // comment
 
 public class Board {
+<<<<<<< Updated upstream
     private final int ROWS;                                 // row variable
     private final int COLUMNS;                              // column variable
     private final Entity[][] boardArray;                    // 2D array to store the entities
     private final ArrayList<Point> emptyCellPositions = new ArrayList<>();    // positions of empty cells
     public int animalNum;                                   // number of animals alive
+=======
+    public final int ROWS;                                 // row variable
+    public final int COLS;                              // column variable
+    public final Cell[][] farmArray;                    // 2D array to store the entities
+>>>>>>> Stashed changes
 
     public Board(int numberOfRows, int numberOfColumns){
         ROWS = numberOfRows;                                // setting the number of rows and columns
+<<<<<<< Updated upstream
         COLUMNS = numberOfColumns;
         boardArray = new Entity[ROWS][COLUMNS];             // initializing the 2D array for the board
         for (int i = 0; i < ROWS; i++) {                    // populating the board with obstacles for borders and empty cells elsewhere
             for (int j = 0; j < COLUMNS; j++) {
                 if (i == 0 || i == ROWS -1 || j == 0 || j == COLUMNS -1) {
                     setCell(i,j,new Entity("Obstacle"));
+=======
+        COLS = numberOfColumns;
+        farmArray = new Cell[ROWS][COLS];             // initializing the 2D array for the board
+        for (int i = 0; i < ROWS; i++) {                    // populating the board with obstacles for borders and empty cells elsewhere
+            for (int j = 0; j < COLS; j++) {
+                if (i == 0 || i == ROWS -1 || j == 0 || j == COLS -1) {
+                    setCell(i,j,new Cell("Obstacle"));
+>>>>>>> Stashed changes
                 }
                 else {
                     boardArray[i][j] = new Entity();             // Making empty cells
@@ -27,7 +42,7 @@ public class Board {
     }
 
     public void populate(int numObstacles, int numAnimals) {         // populating the board with obstacles and animals
-        if ((ROWS -2)*(COLUMNS -2) > numObstacles+numAnimals) {      // validating input
+        if ((ROWS -2)*(COLS -2) > numObstacles+numAnimals) {      // validating input
             int pick;                                               //variable to store randomly picked index
             Point pos;                                              // variable to store randomly picked position
             for (int i = 0; i < numObstacles; i++) {
@@ -71,7 +86,7 @@ public class Board {
         Point moveTo;                                                     // position to move to
         updateIf = !updateIf;                                             // in every round updateIf is switched to its opposite
         for (int i = 1; i < ROWS -1; i++) {                               // iterate through the cells of the board  except for borders
-            for (int j = 1; j < COLUMNS - 1; j++) {
+            for (int j = 1; j < COLS - 1; j++) {
                 pos = new Point(i, j);
                 Entity cell = getCell(i, j);
                 if (cell.toggleState() == updateIf) {                    // if cell is not updated
