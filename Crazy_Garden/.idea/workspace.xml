@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b801245-65ab-46ae-9132-e113e7844285" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Empty.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Fox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Rake.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Chicken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chicken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Empty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Empty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Fox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Fox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rake.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,6 +131,7 @@
       <workItem from="1636562560362" duration="268000" />
       <workItem from="1637055777107" duration="55000" />
       <workItem from="1637056378137" duration="1569000" />
+      <workItem from="1637058658173" duration="2455000" />
     </task>
     <servers />
   </component>
@@ -151,5 +152,16 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Board.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

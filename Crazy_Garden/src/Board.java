@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 // comment
 
 public class Board {
@@ -76,7 +75,7 @@ public class Board {
             for (int j = 1; j < COLUMNS - 1; j++) {
                 pos = new Point(i, j);
                 Cell cell = getCell(i, j);
-                if (cell.toggleState() == updateIf) {                    // if cell is not updated
+                if (cell.getToggle() == updateIf) {                    // if cell is not updated
                     cell.switchToggle();                                 // change updateToggle of the cell, so it will not be moved again
                     if (cell.isType("Animal")) {                         // if animal
                         neighbours = getNeighbours(pos);                 //get neighbours
