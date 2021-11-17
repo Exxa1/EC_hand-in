@@ -49,7 +49,7 @@ public class Board {
                     case "Fox" -> System.out.print(" * ");
                     case "Chicken" -> {
                         if (gameState.equals("run")) System.out.print(" C ");
-                        if (gameState.equals("foxWin")) System.out.print(" D ");
+                        else if (gameState.equals("foxWin")) System.out.print(" D ");
                     }
                 }
             }
