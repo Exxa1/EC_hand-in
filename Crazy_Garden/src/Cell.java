@@ -4,10 +4,9 @@ import java.util.ArrayList;
 /**
  * Cells in the Board class are populated with entities created by the entity class
  */
-public class Cell {
+public abstract class Cell {
     private boolean moveToggle;                           // Using it to check if an entity has been updated
     private static final ArrayList<Point> emptyPos = new ArrayList<>();
-    public int foxNum = 0;
 
     public Cell(){
         this.moveToggle = false;
@@ -29,8 +28,13 @@ public class Cell {
     }
     public static Point getEmpty(){                        // picks and empty position and deletes it from the arraylist
         int index = randInt(0, emptyPos.size());
+        Point result = emptyPos.get(index);
         emptyPos.remove(index);
-        return emptyPos.get(index);
+        return result;
+    }
+
+    public static void removeEmpty(Point pos) {
+        emptyPos.remove(pos);
     }
 
     public static int randInt(int min, int max) {                  // Generate random integer method
@@ -40,4 +44,6 @@ public class Cell {
     public String getType() {
         return "noType";
     }
+
+    public Point pickDestination(Point pos, Point chicPos) {return null;}
 }

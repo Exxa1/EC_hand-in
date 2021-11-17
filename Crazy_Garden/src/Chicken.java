@@ -7,6 +7,10 @@ public class Chicken extends Cell{
         this.position = pos;
     }
 
+    public Chicken() {
+
+    }
+
     public Point getPos() {
         return position;
     }
@@ -16,7 +20,6 @@ public class Chicken extends Cell{
     }
 
     // input to move Chic
-
 
     public String getType() {
         return "Chicken";
