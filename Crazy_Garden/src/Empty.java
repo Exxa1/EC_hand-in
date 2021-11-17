@@ -5,4 +5,8 @@ public class Empty extends Cell{
     Empty(boolean toggleState){
         super(toggleState);
     }
+
+    public String getType() {
+        return "Empty";
+    }
 }

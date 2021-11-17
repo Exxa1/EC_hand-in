@@ -12,16 +12,17 @@ public class Main {
     public static void main(String[] args) {
         Board board = new Board(20, 30);      // Board object, it contains all the cells
         board.populate(30, 10);      // obstacles + animals has to be smaller than ((row-2)*(column-2))
-        board.display();                                   // Printing the board to the terminal
-
-        while(board.animalNum > 1) {                       // loop runs until only one animal left
-            board.update();                                // iterates through board cells and moving animals
-            board.display();                               // Printing the board to the terminal
-            try {                                          // prints a frame in every half a second (2fps)
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        board.display();                                   // Printing the board to the terminal
+//
+//        while(board.animalNum > 1) {                       // loop runs until only one animal left
+//            board.update();                                // iterates through board cells and moving animals
+//            board.display();                               // Printing the board to the terminal
+//            try {                                          // prints a frame in every half a second (2fps)
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        System.out.println(Board.getClass());
     }
 }

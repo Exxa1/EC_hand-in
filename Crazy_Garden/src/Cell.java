@@ -6,8 +6,8 @@ import java.util.ArrayList;
  */
 public class Cell {
     private boolean moveToggle;                           // Using it to check if an entity has been updated
-    private final ArrayList<Point> emptyPos = new ArrayList<>();
-    public int foxNum;
+    private static final ArrayList<Point> emptyPos = new ArrayList<>();
+    public int foxNum = 0;
 
     public Cell(){
         this.moveToggle = false;
@@ -22,5 +22,22 @@ public class Cell {
 
     public boolean getToggle() {                                  // get the state of the toggle
         return moveToggle;
+    }
+
+    public static void addEmpty(Point pos) {
+        emptyPos.add(pos);
+    }
+    public static Point getEmpty(){                        // picks and empty position and deletes it from the arraylist
+        int index = randInt(0, emptyPos.size());
+        emptyPos.remove(index);
+        return emptyPos.get(index);
+    }
+
+    public static int randInt(int min, int max) {                  // Generate random integer method
+        return (int)(Math.random()*(max-min))+min;
+    }
+
+    public String getType() {
+        return "noType";
     }
 }
