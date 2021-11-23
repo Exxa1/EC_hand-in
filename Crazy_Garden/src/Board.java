@@ -1,59 +1,58 @@
 import java.awt.*;
-import java.util.Arrays;
-// comment
+import java.util.ArrayList;
 
-/* This method initialises the board.
- */
 public class Board {
     private final int ROWS;                                 // row variable
     private final int COLUMNS;                              // column variable
-    private final Cell[][] farmArray;                    // 2D array to store the entities
-    public final Chicken chic = new Chicken();                       // need to create here since used in update() too
-    public String gameState = "run";
+    private final Cell[][] farmArray;                       // 2D array to store the entities
+    private ArrayList<Point> emptyPos = new ArrayList<>();  // Storing empty positions. Used for populating and when chicken jumps
+    public String gameState = "run";                        // tells if the game is running or chicken or foxes won
+    public int foxNumber;                                   // Number of alive foxes. When zero chicken wins
+    public final Chicken chic = new Chicken();              // The chicken object. Used in populate() and in update()
+    public boolean moveToggle = false;                      // Using this to only move foxes once before displaying (used in Fox.move())
 
     public Board(int numberOfRows, int numberOfColumns){
         ROWS = numberOfRows;                                // setting the number of rows and columns
         COLUMNS = numberOfColumns;
-        farmArray = new Cell[ROWS][COLUMNS];             // initializing the 2D array for the board
-        for (int i = 0; i < ROWS; i++) {             // populating the board with obstacles for borders and empty cells elsewhere
+        farmArray = new Cell[ROWS][COLUMNS];                // initializing the 2D array for the board
+        for (int i = 0; i < ROWS; i++) {                    // populating the board with rakes for borders and empty cells elsewhere
             for (int j = 0; j < COLUMNS; j++) {
                 if (i == 0 || i == ROWS -1 || j == 0 || j == COLUMNS -1) {
-                    setCell(i,j, new Rake());           // creates Rake objects as borders
+                    setCell(i,j, new Rake());               // creates Rake objects as borders
                 }
                 else {
                     setCell( i, j, new Empty());
-                    Cell.addEmpty(new Point(i,j));            // adding empty position to ArrayList in Cell
                 }
             }
         }
     }
 
-    public void populate(int numRakes, int numFox) {         // populating the board with obstacles and animals
-        if ((ROWS -2)*(COLUMNS -2)-1 > numRakes+numFox) {      // validating input
+    public void populate(int numRakes, int numFox) {            // populating the board with obstacles and animals
+        if ((ROWS -2)*(COLUMNS -2)-1 > numRakes+numFox) {       // validating input
             for (int i = 0; i < numRakes; i++) {
-                setCell(Cell.getEmpty(), new Rake());          // making new Rake at pos besides the boarder
+                setCell(getRandomEmpty(), new Rake());          // making new Rake at random position
             }
             for (int i = 0; i < numFox; i++) {
-                setCell(Cell.getEmpty(), new Fox());   // making new Animal at pos      (isn't this fox?)
+                setCell(getRandomEmpty(), new Fox());           // making new Fox at random position
+                foxNumber++;
             }
-            chic.setPos(Cell.getEmpty());       // PLACE CHICKEN ON BOARD. Since it is only once chicken, we don't need a for statement.
+            chic.setPos(getRandomEmpty());                      // PLACE CHICKEN ON BOARD. Since there is only once chicken, we don't need a for statement.
             setCell(chic.getPos(), chic);
 
-            //This is displayed when the board is overpopulated making it an impossible game.
-        } else System.out.println("Too many foxes and rakes!");
+        } else System.out.println("Too many foxes and rakes!"); //This is displayed when the board is overpopulated.
     }
 
-    public void display() {                                        // Printing out the board
+    public void display() {                                     // Printing out the board
         for (Cell[] cells : farmArray) {
             for (Cell cell : cells) {
-                switch (cell.getType()) {
-                    case "Empty" -> System.out.print(" _ ");
+                switch (cell.whatType()) {
+                    case "Empty" -> System.out.print(" . ");
                     case "Rake" -> System.out.print(" X ");
-                    case "Fox" -> System.out.print(" * ");
+                    case "Fox" -> System.out.print("🦊 ");
                     case "Chicken" -> {
-                        if (gameState.equals("run")) System.out.print(" C ");   //This will be displayed when the chicken is alive.
-                        else if (gameState.equals("foxWin")) System.out.print(" D ");   //This will be displayed when the fox eats the chicken.
-                        else if (gameState.equals("chicWin")) System.out.print(" W ");   //This will be displayed when the fox eats the chicken.
+                        if (gameState.equals("run")) System.out.print("🐥 ");           //This will be displayed when the chicken is alive.
+                        else if (gameState.equals("foxWin")) System.out.print("🍗 ");   //This will be displayed when the fox eats the chicken.
+                        else if (gameState.equals("chicWin")) System.out.print("🐤 ");  //This will be displayed when the chicken win.
                     }
                 }
             }
@@ -63,50 +62,41 @@ public class Board {
     }
 
     // COMPUTER MOVE - REWORK
-    private boolean updateIf = true;                                      // only update the cells if this variable matches the value of updateToggle inside cell
-    public void update() {
-        Point pos;                                                        // position of the cell
-        Point moveTo;                                                     // position to move to
-        updateIf = !updateIf;                                             // in every round updateIf is switched to its opposite
-        for (int i = 1; i < ROWS - 1; i++) {                               // iterate through the cells of the board  except for borders
+    public void computerMove() {
+        for (int i = 1; i < ROWS - 1; i++) {                   //Iterate through the cells of the board  except for borders
             for (int j = 1; j < COLUMNS - 1; j++) {
-                pos = new Point(i, j);
-                Cell cell = getCell(pos);
-                if (cell.getToggle() == updateIf) {                    // if cell is not updated
-                    cell.switchToggle();
-                    if (cell.getType().equals("Fox"))
-                        move(pos, cell);
-                    }
-                }
+                farmArray[i][j].move(this, i, j);        //If cell is not fox, nothing will happen. (See in Cell.move())
             }
         }
-
-    private Cell getCell(int row, int column) {                     // get the entity at given location (why is it not used/lit up?)
-        return this.farmArray[row][column];
+        moveToggle = !moveToggle;
     }
-    public Cell getCell(Point pos) {                // overload getCell to be able to handle Points     Kristina is confused??
+
+    public Cell getCell(Point pos) {                        //Get the cell object at requested position
         return this.farmArray[pos.x][pos.y];
     }
 
-    private void setCell(int row, int column, Cell to) {            // making a cell in the board to refer to an entity
+    private void setCell(int row, int column, Cell to) {//Making a cell in the board to point to an entity
         this.farmArray[row][column] = to;
-    }
-    public void setCell(Point pos, Cell to) {                      // overload setCell to be able to handle Points
-        this.farmArray[pos.x][pos.y] = to;
-    }
-
-    private void move(Point fromLocation, Cell fox) {
-        Point moveTo = fox.pickDestination(fromLocation, chic.getPos());
-        if (getCell(moveTo).getType().equals("Empty")) {           // if the cell is not occupied
-            setCell(moveTo, fox);                       // making the picked cell to refer to moving object
-            Cell.removeEmpty(moveTo);           // the position where the cell moved is removed from empty positions list
-        } else if (getCell(moveTo).getType().equals("Chicken")) {
-            gameState = "foxWin";
-        }else Fox.foxNum--;                              // if the cell where animal want to move is not empty, in next step animal is deleted (What about rakes is it in fox subclass?)
-        setCell(fromLocation, new Empty(!updateIf));             // empty cell on place of animal
-        Cell.addEmpty(new Point(fromLocation));                 // adding to empty entities list
-        if (Fox.foxNum < 1) {
-            gameState = "chicWin";
+        if (to.whatType().equals("Empty")) {            //If the cell is set to empty, adding position to empty positions list
+            emptyPos.add(new Point(row, column));       //Never replacing empty cells with this method so no need for else statement as in other setCell()
         }
     }
+    public void setCell(Point pos, Cell to) {           // overload setCell to be able to handle Points
+        this.farmArray[pos.x][pos.y] = to;
+        if (to.whatType().equals("Empty")) {            //If making an empty cell at position
+            emptyPos.add(pos);                          //Adding it to emptyPos list
+        } else {
+            try {
+                emptyPos.remove(pos);
+            } catch (Exception e) {                     //In case the position is not on the emptyPos list.
+                // do nothing                           //Shouldn't happen but making it further development proof
+            }
+        }
+    }
+
+    public Point getRandomEmpty(){                        // picks a random empty position and deletes it from the arraylist
+        int index = (int)(Math.random()*(emptyPos.size()));
+        return emptyPos.get(index);
+    }
+
 }
