@@ -2,6 +2,8 @@ import java.awt.*;
 import java.util.Arrays;
 // comment
 
+/* This method initialises the board.
+ */
 public class Board {
     private final int ROWS;                                 // row variable
     private final int COLUMNS;                              // column variable
@@ -12,7 +14,7 @@ public class Board {
         ROWS = numberOfRows;                                // setting the number of rows and columns
         COLUMNS = numberOfColumns;
         farmArray = new Cell[ROWS][COLUMNS];             // initializing the 2D array for the board
-        for (int i = 0; i < ROWS; i++) {                    // populating the board with obstacles for borders and empty cells elsewhere
+        for (int i = 0; i < ROWS; i++) {             // populating the board with obstacles for borders and empty cells elsewhere
             for (int j = 0; j < COLUMNS; j++) {
                 if (i == 0 || i == ROWS -1 || j == 0 || j == COLUMNS -1) {
                     setCell(i,j, new Rake());           // creates Rake objects as borders
@@ -29,14 +31,15 @@ public class Board {
     public void populate(int numRakes, int numFox) {         // populating the board with obstacles and animals
         if ((ROWS -2)*(COLUMNS -2)-1 > numRakes+numFox) {      // validating input
             for (int i = 0; i < numRakes; i++) {
-                setCell(Cell.getEmpty(), new Rake());          // making new Rake at pos
+                setCell(Cell.getEmpty(), new Rake());          // making new Rake at pos besides the boarder
             }
             for (int i = 0; i < numFox; i++) {
-                setCell(Cell.getEmpty(), new Fox());   // making new Animal at pos
+                setCell(Cell.getEmpty(), new Fox());   // making new Animal at pos      (isn't this fox?)
             }
-            chic.setPos(Cell.getEmpty());        // PLACE CHICKEN ON BOARD
+            chic.setPos(Cell.getEmpty());       // PLACE CHICKEN ON BOARD. Since it is only once chicken, we don't need a for statement.
             setCell(chic.getPos(), chic);
 
+            //This is displayed when the board is overpopulated making it an impossible game.
         } else System.out.println("Too many foxes and rakes!");
     }
 
@@ -48,8 +51,8 @@ public class Board {
                     case "Rake" -> System.out.print(" X ");
                     case "Fox" -> System.out.print(" * ");
                     case "Chicken" -> {
-                        if (gameState.equals("run")) System.out.print(" C ");
-                        else if (gameState.equals("foxWin")) System.out.print(" D ");
+                        if (gameState.equals("run")) System.out.print(" C ");   //This will be displayed when the chicken is alive.
+                        else if (gameState.equals("foxWin")) System.out.print(" D ");   //This will be displayed when the fox eats the chicken.
                     }
                 }
             }
@@ -77,10 +80,10 @@ public class Board {
             }
         }
 
-    private Cell getCell(int row, int column) {                     // get the entity at given location
+    private Cell getCell(int row, int column) {                     // get the entity at given location (why is it not used/lit up?)
         return this.farmArray[row][column];
     }
-    private Cell getCell(Point pos) {                               // overload getCell to be able to handle Points
+    private Cell getCell(Point pos) {                // overload getCell to be able to handle Points     Kristina is confused??
         return this.farmArray[pos.x][pos.y];
     }
 
@@ -98,7 +101,7 @@ public class Board {
             Cell.removeEmpty(moveTo);           // the position where the cell moved is removed from empty positions list
         } else if (getCell(moveTo).getType().equals("Chicken")) {
             gameState = "foxWin";
-        }else Fox.foxNum--;                              // if the cell where animal want to move is not empty, in next step animal is deleted
+        }else Fox.foxNum--;                              // if the cell where animal want to move is not empty, in next step animal is deleted (What about rakes is it in fox subclass?)
         setCell(fromLocation, new Empty(!updateIf));             // empty cell on place of animal
         Cell.addEmpty(new Point(fromLocation));                 // adding to empty entities list
     }

@@ -1,9 +1,10 @@
 import java.awt.*;
 
+//The methods and attributes specific for the chicken are in this extension of the class cell.
 public class Chicken extends Cell{
     private Point position;
 
-    public Chicken(Point pos) {
+    public Chicken(Point pos) {     //Variables and methods must be public since it is called in the fox subclass.
         this.position = pos;
     }
 
