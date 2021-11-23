@@ -8,6 +8,7 @@ public class Board {
     private final int ROWS;                                 // row variable
     private final int COLUMNS;                              // column variable
     private final Cell[][] farmArray;                    // 2D array to store the entities
+    public final Chicken chic = new Chicken();                       // need to create here since used in update() too
     public String gameState = "run";
 
     public Board(int numberOfRows, int numberOfColumns){
@@ -27,7 +28,6 @@ public class Board {
         }
     }
 
-    private final Chicken chic = new Chicken();                       // need to create here since used in update() too
     public void populate(int numRakes, int numFox) {         // populating the board with obstacles and animals
         if ((ROWS -2)*(COLUMNS -2)-1 > numRakes+numFox) {      // validating input
             for (int i = 0; i < numRakes; i++) {
@@ -53,6 +53,7 @@ public class Board {
                     case "Chicken" -> {
                         if (gameState.equals("run")) System.out.print(" C ");   //This will be displayed when the chicken is alive.
                         else if (gameState.equals("foxWin")) System.out.print(" D ");   //This will be displayed when the fox eats the chicken.
+                        else if (gameState.equals("chicWin")) System.out.print(" W ");   //This will be displayed when the fox eats the chicken.
                     }
                 }
             }
@@ -83,14 +84,14 @@ public class Board {
     private Cell getCell(int row, int column) {                     // get the entity at given location (why is it not used/lit up?)
         return this.farmArray[row][column];
     }
-    private Cell getCell(Point pos) {                // overload getCell to be able to handle Points     Kristina is confused??
+    public Cell getCell(Point pos) {                // overload getCell to be able to handle Points     Kristina is confused??
         return this.farmArray[pos.x][pos.y];
     }
 
     private void setCell(int row, int column, Cell to) {            // making a cell in the board to refer to an entity
         this.farmArray[row][column] = to;
     }
-    private void setCell(Point pos, Cell to) {                      // overload setCell to be able to handle Points
+    public void setCell(Point pos, Cell to) {                      // overload setCell to be able to handle Points
         this.farmArray[pos.x][pos.y] = to;
     }
 
@@ -104,5 +105,8 @@ public class Board {
         }else Fox.foxNum--;                              // if the cell where animal want to move is not empty, in next step animal is deleted (What about rakes is it in fox subclass?)
         setCell(fromLocation, new Empty(!updateIf));             // empty cell on place of animal
         Cell.addEmpty(new Point(fromLocation));                 // adding to empty entities list
+        if (Fox.foxNum < 1) {
+            gameState = "chicWin";
+        }
     }
 }
