@@ -13,9 +13,6 @@ The player controls the chicken with five keys: w,a,s,d, and j. We used the univ
 right directions. J is used to make the chicken jump to a random place on the board. Whenever these keys are pressed the
 code will enact these actions.
 
-(You, the player, are the chicken. The goal of the game is to be the last survivor. You must avoid the foxes, which are chasing
-you around the garden, while dodging the rakes scattered around. Both foxes and rakes can kill you.
-To eliminate all the foxes, you must guide them into the rakes and each other.) -- might transfer to the report.
  */
 
 public class Main {
